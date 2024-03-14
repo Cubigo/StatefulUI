@@ -172,33 +172,32 @@ public class ViewStateMachine {
 			newView.translatesAutoresizingMaskIntoConstraints = false
 			containerView.addSubview(newView)
 
-			let insets = (newView as? StatefulPlaceholderView)?.placeholderViewInsets() ?? UIEdgeInsets()
-			if #available(iOS 11.0, *) {
-				let safeAreaLayoutGuide = containerView.safeAreaLayoutGuide
+            let insets = (newView as? StatefulPlaceholderView)?.placeholderViewInsets() ?? UIEdgeInsets()
 
-				newView.rightAnchor
-					.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -insets.right)
-					.isActive = true
-				newView.leftAnchor
-					.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: insets.left)
-					.isActive = true
-				newView.topAnchor
-					.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: insets.top)
-					.isActive = true
-				newView.bottomAnchor
-					.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -insets.bottom)
-					.isActive = true
-			} else {
-				let insets = (newView as? StatefulPlaceholderView)?.placeholderViewInsets() ?? UIEdgeInsets()
+            // adds minimum spacing to edges
+            if #available(iOS 11.0, *) {
+                let safeAreaLayoutGuide = containerView.safeAreaLayoutGuide
 
-				let metrics = ["top": insets.top, "bottom": insets.bottom, "left": insets.left, "right": insets.right]
-				let views = ["view": newView]
-				let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "|-left-[view]-right-|", options: [], metrics: metrics, views: views)
-				let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[view]-bottom-|", options: [], metrics: metrics, views: views)
-				containerView.addConstraints(hConstraints)
-				containerView.addConstraints(vConstraints)
-			}
-		}
+                newView.rightAnchor
+                    .constraint(lessThanOrEqualTo: safeAreaLayoutGuide.rightAnchor, constant: -insets.right)
+                    .isActive = true
+                newView.leftAnchor
+                    .constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.leftAnchor, constant: insets.left)
+                    .isActive = true
+                newView.topAnchor
+                    .constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.topAnchor, constant: insets.top)
+                    .isActive = true
+                newView.bottomAnchor
+                    .constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -insets.bottom)
+                    .isActive = true
+            }
+
+            // centers the view within the insets
+            let centerX = NSLayoutConstraint(item: newView, attribute: .centerX, relatedBy: .equal, toItem: containerView, attribute: .centerX, multiplier: 1, constant: 0)
+            let centerY = NSLayoutConstraint(item: newView, attribute: .centerY, relatedBy: .equal, toItem: containerView, attribute: .centerY, multiplier: 1, constant: insets.top/2)
+            containerView.addConstraint(centerX)
+            containerView.addConstraint(centerY)
+        }
 
 		let animations: () -> Void = {
 			if let newView = store[state] {
