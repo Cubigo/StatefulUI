@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
 	# info
-	s.name = 'StatefulUI'
+	s.name = 'StatefulUI-cubigo'
 	s.version = '1.0.5'
 	s.summary = 'Placeholder views based on content, loading, error or empty states.'
 	s.description = <<-DESC
 	A protocol that presents placeholder views based on content, loading, error or empty states.
 	Fork of StatefulViewController.
 	DESC
-	s.homepage = 'https://github.com/appwise-labs/StatefulUI'
+	s.homepage = 'https://github.com/Cubigo/StatefulUI'
 	s.authors = {
-		'David Jennes' => 'david.jennes@gmail.com'
+		'kbex' => 'kbex@cubigo.com'
 	}
 	s.license = {
 		:type => 'MIT',
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
 	# files
 	s.source = {
-		:git => 'https://github.com/appwise-labs/StatefulUI.git',
+		:git => 'https://github.com/Cubigo/StatefulUI.git',
 		:tag => s.version
 	}
 	s.source_files = 'Sources/**/*.swift'
