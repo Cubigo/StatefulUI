@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 	# info
 	s.name = 'StatefulUI-cubigo'
-	s.version = '1.0.7'
+	s.version = '1.0.8'
 	s.summary = 'Placeholder views based on content, loading, error or empty states.'
 	s.description = <<-DESC
 	A protocol that presents placeholder views based on content, loading, error or empty states.
